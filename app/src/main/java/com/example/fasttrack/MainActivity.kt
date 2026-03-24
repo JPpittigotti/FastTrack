@@ -3,45 +3,19 @@ package com.example.fasttrack
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.fasttrack.ui.theme.FastTrackTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fasttrack.ui.screens.PantallaPrincipal
+import com.example.fasttrack.viewmodel.ServicioViewModel
 
+// Esta es la base de la aplicacion, lo primero que arranca
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            FastTrackTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            // Creamos el ViewModel que manejara toda la informacion
+            val vm: ServicioViewModel = viewModel()
+            // Llamamos a la pantalla que controla la navegacion
+            PantallaPrincipal(vm)
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FastTrackTheme {
-        Greeting("Android")
     }
 }
