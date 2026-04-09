@@ -1,6 +1,8 @@
 package com.example.fasttrack.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +20,8 @@ fun PantallaDashboard(lista: List<SolicitudServico>, alVolver: () -> Unit) {
     val terminados = lista.count { it.estado == "Terminado" }
     val altaPrioridad = lista.count { it.prioridad == "Alta" }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    // Agregamos verticalScroll para que la pantalla se pueda deslizar y el boton de abajo siempre sea accesible
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)) {
         Text(text = "Resumen del Sistema", fontSize = 24.sp, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(24.dp))
 

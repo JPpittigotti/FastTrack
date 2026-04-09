@@ -1,6 +1,8 @@
 package com.example.fasttrack.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -11,8 +13,9 @@ import androidx.compose.ui.unit.sp
 // Menu principal con botones para navegar a las distintas opciones
 @Composable
 fun PantallaMenu(alIrRegistro: () -> Unit, alIrLista: () -> Unit, alIrDashboard: () -> Unit) {
+    // Agregamos verticalScroll para que el menu se pueda deslizar si se pone horizontal
     Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

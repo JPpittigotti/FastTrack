@@ -1,9 +1,11 @@
 package com.example.fasttrack.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -13,40 +15,53 @@ import com.example.fasttrack.R
 import com.example.fasttrack.viewmodel.ServicioViewModel
 
 // Este es el control de trafico principal de la app
-// Usamos Scaffold para dejar una barra fija abajo con el logo y los derechos
+// Usamos un andamio para fijar el logo arriba y los derechos abajo
 @Composable
 fun PantallaPrincipal(vm: ServicioViewModel) {
-    // Guarda el nombre de la pantalla actual
-    var pantallaActual by remember { mutableStateOf("splash") }
-    // Guarda el numero de la solicitud que queremos ver a detalle
-    var idSeleccionado by remember { mutableStateOf(-1) }
+    // rememberSaveable evita que se reinicie la navegacion al girar la pantalla
+    var pantallaActual by rememberSaveable { mutableStateOf("splash") }
+    // tambien guardamos el id para no perder la seleccion al rotar el celular
+    var idSeleccionado by rememberSaveable { mutableStateOf(-1) }
+
+    // Intercepta el boton de atras del celular
+    // Si no estamos en el splash ni en el menu, nos devuelve al menu en vez de salir de la app
+    BackHandler(enabled = pantallaActual != "splash" && pantallaActual != "menu") {
+        pantallaActual = "menu"
+    }
 
     Scaffold(
-        // Esta es la barra que se quedara pegada abajo en todas las pantallas
+        // Barra superior con el logo centrado y en grande
+        topBar = {
+            if (pantallaActual != "splash") {
+                Box(
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_app),
+                        contentDescription = null,
+                        modifier = Modifier.size(90.dp) // Tamaño lo suficientemente grande para que resalte
+                    )
+                }
+            }
+        },
+        // Barra inferior que ahora solo tiene el texto de los derechos de autor
         bottomBar = {
-            // Ocultamos la barra solo cuando estamos en la pantalla de carga inicial
             if (pantallaActual != "splash") {
                 Box(
                     modifier = Modifier.fillMaxWidth().padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Texto de los derechos de autor centrado
                     Text(
-                        text = "© 2026 FastTrack Studio - Todos los derechos reservados",
+                        text = "© 2026 NovaApps Studio - Todos los derechos reservados",
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.secondary
-                    )
-                    // Logo de la app acomodado a la derecha para que no estorbe
-                    Image(
-                        painter = painterResource(id = R.drawable.logo_app),
-                        contentDescription = null,
-                        modifier = Modifier.align(Alignment.CenterEnd).size(32.dp)
                     )
                 }
             }
         }
     ) { paddingValues ->
-        // El contenido de las pantallas se dibuja aqui, respetando el espacio de la barra
+        // El contenido de las pantallas se dibuja aqui, respetando el espacio de arriba y abajo
         Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
             // Cambia la vista dependiendo del valor de pantallaActual
             when (pantallaActual) {

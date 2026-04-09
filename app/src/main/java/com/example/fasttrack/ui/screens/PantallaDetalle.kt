@@ -1,6 +1,8 @@
 package com.example.fasttrack.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,7 +13,8 @@ import com.example.fasttrack.model.SolicitudServico
 // Muestra la informacion completa de una sola solicitud
 @Composable
 fun PantallaDetalle(solicitud: SolicitudServico, alVolver: () -> Unit, alCambiarEstado: (String) -> Unit) {
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    // Agregamos verticalScroll para que los detalles se puedan deslizar si hay mucho texto
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)) {
         Text(text = "Detalle de Solicitud", fontSize = 24.sp, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(24.dp))
 
